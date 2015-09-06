@@ -1,0 +1,27 @@
+{
+  "name": "wms-labeling",
+  "version": "0.0.1",
+  "description": "rewriting [University of New Mexico's WMS Labeling PHP application](https://github.com/unm-art) as an Electron desktop application.",
+  "main": "index.js",
+  "dependencies": {
+    "oclc-copy-resource": "^1.0.0",
+    "oclc-wskey": "^2.1.0",
+    "electron-packager": "^5.0.2"
+  },
+  "devDependencies": { 
+    "gulp": "^3.9.0",
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malantonio/node-wms-labeling.git"
+  },
+  "author": "Adam Malantonio <adam.malantonio@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/malantonio/node-wms-labeling/issues"
+  },
+  "homepage": "https://github.com/malantonio/node-wms-labeling#readme"
+}
