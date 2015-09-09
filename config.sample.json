@@ -1,0 +1,14 @@
+{
+  "oclc": {
+    "institution_id": 128807,
+    "wskey": {
+      "public": "",
+      "secret": ""
+    },
+
+    "user": {
+      "principalID": "",
+      "principalIDNS": ""    
+    }
+  }
+}
