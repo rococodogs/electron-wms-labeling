@@ -18,11 +18,12 @@
     "electron-builder": "^2.0.0",
     "electron-packager": "^5.0.2",
     "electron-prebuilt": "^0.31.2",
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "tape": "^4.2.0"
   },
   "scripts": {
     "dev-server": "node server",
-    "start": "./node_modules/electron-prebuilt/cli.js .",
+    "start": "./node_modules/.bin/electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
