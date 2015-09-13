@@ -18,6 +18,8 @@ const LABELS = []
 
 const BARCODE_EL_REG = new RegExp(SELECTOR.BARCODE_INPUT.substring(1))
 
+const ROW_PREFIX = 'row-'
+
 // elements
 let tbody = document.querySelector(SELECTOR.TBODY)
 let selectAll = document.querySelector(SELECTOR.SELECT_ALL)
@@ -27,6 +29,9 @@ let addRowButton = document.querySelector(SELECTOR.ADD_ROW)
 addRowButton.addEventListener('click', appendRowToTable)
 selectAll.addEventListener('change', handleSelectAllToggle)
 document.addEventListener('keydown', handleKeydown)
+ipc.on('item-data', onItemData)
+
+let rowCount = tbody.querySelectorAll('tr').length
 
 function handleSelectAllToggle () {
   let checked = !!selectAll.checked
@@ -54,6 +59,8 @@ function handleBarcodeEnter (target) {
                   .parentElement      //  </td>
                   .parentElement      // </tr>
                   .nextElementSibling // <tr>
+
+  let rowId = target.parentElement.parentElement.id
   if (nextGroup) {
     // .firstChild returns text nodes if you've got a line break between elements
     nextGroup     // <tr>
@@ -63,14 +70,17 @@ function handleBarcodeEnter (target) {
   } else {
     appendRowToTable()
   }
+  
+  if (target.value === '') return
 
-  ipc.send('add-item', {barcode: target.value, pocketLabel: checked})
+  ipc.send('add-item', {barcode: target.value, pocketLabel: checked, rowId: rowId })
 }
 
 function appendRowToTable () {
   let checked = !!selectAll.checked
   let checkedText = checked ? 'checked' : ''
   let row = document.createElement('tr')
+  row.id = ROW_PREFIX + ++rowCount
 
   let inputClassName = SELECTOR.BARCODE_INPUT.substring(1)
   let printLabelClassName = SELECTOR.POCKET_LABEL.substring(1)
@@ -85,27 +95,19 @@ function appendRowToTable () {
                 +   checkedText
                 +   '>'
                 + '</td>'
+                + '<td class="status"></td>'
   tbody.insertBefore(row, null)
 
   allInputs = document.querySelectorAll(SELECTOR.BARCODE_INPUT)
   allInputs[allInputs.length - 1].focus()
 }
 
-function getAllBarcodes () {
-  let barcodes = document.querySelectorAll(SELECTOR.BARCODE_INPUT)
-  return Array.prototype.map
-         .call(barcodes, function (el) {
-          if (!el.value) return null
+function onItemData (data) {
+  var statusSelector = '#' + data.inputTableRowId + ' .status'
+  var statusEl = document.querySelector(statusSelector)
+  LABELS.push(data)
 
-          return {
-            barcode: el.value,
-            pocketLabel: !!el.parentElement
-                             .nextElementSibling
-                             .children[0]
-                             .checked
-          }
-         })
-         .filter(function (o) {return o !== null})
+  statusEl.innerHTML = data.title || data.callNumber
 }
 
 // $('#barcodes-submit').on('click', function () {

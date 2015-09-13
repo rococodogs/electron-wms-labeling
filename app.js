@@ -24,10 +24,12 @@ app.on('ready', function () {
   })
 })
 
-ipc.on('add-item', function (_, item) {
+ipc.on('add-item', function (event, item) {
   queue.add(item)
   
   if (!queue.inProcess) queue.process()
 
-  queue.on('data', function (d) { ipc.send('item-data', d)} )
+  queue.on('data', function (d) { 
+    event.sender.send('item-data', d)
+  })
 })
