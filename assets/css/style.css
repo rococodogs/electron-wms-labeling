@@ -2,3 +2,7 @@ body {
   background-color: #dee;
   color: #111;
 }
+
+button, input[type="checkbox"] {
+  cursor: pointer;
+}

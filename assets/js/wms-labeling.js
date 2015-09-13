@@ -10,7 +10,8 @@ const SELECTOR = {
   BARCODE_INPUT: '.barcode',
   POCKET_LABEL: '.pocket-label',
   SELECT_ALL: '#select-all-toggle',
-  ADD_ROW: '#barcode-add-row'
+  ADD_ROW: '#barcode-add-row',
+
 }
 
 // an array of label objects we'll use to generate labels
@@ -87,7 +88,8 @@ function appendRowToTable () {
 
   let allInputs
 
-  row.innerHTML = '<td>'
+  row.innerHTML = '<td><button onclick="removeRow(this)">X</button></td>'
+                + '<td>'
                 +   '<input class="' + inputClassName + '" type="text">'
                 + '</td>'
                 + '<td>'
@@ -110,7 +112,9 @@ function onItemData (data) {
   statusEl.innerHTML = data.title || data.callNumber
 }
 
-// $('#barcodes-submit').on('click', function () {
-//   var barcodes = getBarcodes()
-//   if (barcodes.length === 0) return
-// })
+function removeRow (el) {
+  var rowId = el.parentElement.parentElement.id
+  var row = document.getElementById(rowId)
+
+  row.parentElement.removeChild(row)
+}
