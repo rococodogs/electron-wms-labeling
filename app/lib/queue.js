@@ -13,7 +13,7 @@ util.inherits(Queue, EE)
 function Queue () {
   this.inProcess = false
   this._queue = []
-  this._client = require(__dirname + '/generate-copy-resource-client')()
+  this._client = require('./generate-copy-resource-client')()
   this._output = []
 
   EE.call(this)

@@ -2,7 +2,7 @@
 
 const http = require('http')
 const xml = require('node-xml')
-const wskey = require(__dirname + '/../config.json').oclc.wskey.public
+const wskey = require('./get-config')().oclc.wskey.public
 const baseUrl = 'http://www.worldcat.org/webservices/catalog/content/'
 
 module.exports = function getPocketLabelInfo (oclcNumber, callback) {

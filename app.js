@@ -6,7 +6,7 @@ const ipc = require('ipc')
 const Menu = require('menu')
 
 const config = require('./config.json')
-const Queue = require('./lib/queue')
+const Queue = require('./app/lib/queue')
 const queue = new Queue(config)
 
 let showDevTools = !!(process.argv[2] === 'debug')
@@ -16,7 +16,7 @@ app.on('window-all-closed', app.quit)
 
 app.on('ready', function () {
   let windowOpts = {
-    width: 800,
+    width: 600,
     height: 1000,
     title: 'WMS Labeling'
   }

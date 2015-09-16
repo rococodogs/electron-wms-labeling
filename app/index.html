@@ -4,37 +4,39 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/label.css">
+    <title>WMS Labeling</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/label.css">
   </head>
   <body>
     <div class="input-container">
       <div class="input-container--header">
-        Enter Labels
+        Enter Barcodes
       </div>
 
       <div class="input-container--body">
+        <table class="input-table">
+          <thead>
+            <tr>
+              <th>Barcode</th>
+              <th>Print Pocket Label?</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <td><button class="input-add-row">Add Row</button></td>
+            <td>
+              <label>
+                <input type="checkbox" class="input-pocket-label--select-all">
+                Select All
+              </label>
+            </td>
 
+          </tfoot>
+        </table>
       </div>
     </div>
 
-
-    <!-- <script src="assets/js/wms-labeling.js"></script> -->
-    <script>
-    require('remote').getCurrentWindow().openDevTools()
-    
-    var inputHeader = document.querySelector('.input-container--header')
-    var inputBody = document.querySelector('.input-container--body')
-
-    inputHeader.addEventListener('click', toggleInputBody)
-
-    function toggleInputBody () {
-      var b = document.querySelector('.input-container--body')
-      var action = b.classList.contains('closed') ? 'remove' : 'add'
-
-      b.classList[action]('closed')
-    }
-    </script>
+    <script src="main.js"></script>
   </body>
 </html>
