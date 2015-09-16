@@ -1,0 +1,55 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body { 
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+button, input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.input-container {
+  
+}
+
+.input-container--header {
+  background-color: #cc092f;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.25em;
+  padding: .5em;
+  text-align: center;
+  width: 100%;
+}
+
+.input-container--body {
+  background-color: #e5e5e5;
+  height: 400px;
+  transition: height 250ms;
+}
+
+.input-container--body.closed {
+  height: 0;
+}
+
+@media print {
+  body {
+    height: 1.5in;
+    width: 4in;
+  }
+
+  *:not(.label-container *) {
+    display: none;
+  }
+
+  .label-container {
+    border: none;
+    box-shadow: none;
+    page-break-after: always;
+  }
+}

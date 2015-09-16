@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/label.css">
+  </head>
+  <body>
+    <div class="input-container">
+      <div class="input-container--header">
+        Enter Labels
+      </div>
+
+      <div class="input-container--body">
+
+      </div>
+    </div>
+
+
+    <!-- <script src="assets/js/wms-labeling.js"></script> -->
+    <script>
+    require('remote').getCurrentWindow().openDevTools()
+    
+    var inputHeader = document.querySelector('.input-container--header')
+    var inputBody = document.querySelector('.input-container--body')
+
+    inputHeader.addEventListener('click', toggleInputBody)
+
+    function toggleInputBody () {
+      var b = document.querySelector('.input-container--body')
+      var action = b.classList.contains('closed') ? 'remove' : 'add'
+
+      b.classList[action]('closed')
+    }
+    </script>
+  </body>
+</html>

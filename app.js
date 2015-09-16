@@ -3,6 +3,7 @@
 const app = require('app')
 const BrowserWindow = require('browser-window')
 const ipc = require('ipc')
+const Menu = require('menu')
 
 const config = require('./config.json')
 const Queue = require('./lib/queue')
@@ -14,8 +15,13 @@ let mainWindow = null
 app.on('window-all-closed', app.quit)
 
 app.on('ready', function () {
-  mainWindow = new BrowserWindow({width: 800, height: 1000})
-  mainWindow.loadUrl('file://' + __dirname + '/index.html')
+  let windowOpts = {
+    width: 800,
+    height: 1000,
+    title: 'WMS Labeling'
+  }
+  mainWindow = new BrowserWindow(windowOpts)
+  mainWindow.loadUrl('file://' + __dirname + '/app/index.html')
 
   if (showDevTools) mainWindow.openDevTools()
 

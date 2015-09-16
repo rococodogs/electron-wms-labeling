@@ -10,8 +10,7 @@ const SELECTOR = {
   BARCODE_INPUT: '.barcode',
   POCKET_LABEL: '.pocket-label',
   SELECT_ALL: '#select-all-toggle',
-  ADD_ROW: '#barcode-add-row',
-
+  ADD_ROW: '#barcode-add-row'
 }
 
 // an array of label objects we'll use to generate labels
@@ -98,6 +97,7 @@ function appendRowToTable () {
                 +   '>'
                 + '</td>'
                 + '<td class="status"></td>'
+
   tbody.insertBefore(row, null)
 
   allInputs = document.querySelectorAll(SELECTOR.BARCODE_INPUT)
