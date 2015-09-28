@@ -6,7 +6,7 @@ const wskey = require('./get-config')().oclc.wskey.public
 const baseUrl = 'http://www.worldcat.org/webservices/catalog/content/'
 
 module.exports = function getPocketLabelInfo (oclcNumber, callback) {
-  const url = baseUrl + oclcNumber + '?wskey=' + wskey + '&recordSchema=marcxml'
+  const url = `${baseUrl}${oclcNumber}?wskey=${wskey}&recordSchema=marcxml`
   const parser = new xml.SaxParser(function (p) {
     let atTag = false
     let atTitle = false
