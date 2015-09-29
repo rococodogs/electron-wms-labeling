@@ -30,6 +30,10 @@ button, input[type="checkbox"] {
   transition: height 250ms;
 }
 
+.input-container--body.closed {
+  display: none;
+}
+
 .input-table {
   border-collapse: collapse;
   font-size: 1.125em;
@@ -39,6 +43,7 @@ button, input[type="checkbox"] {
 
 .input-table td {
   padding: .25em;
+  position: relative;
   text-align: center;
 }
 
@@ -60,6 +65,24 @@ button, input[type="checkbox"] {
   border: 1px solid #c3c3c3;
 }
 
+.barcode-ok::before,
+.barcode-not-ok::before {
+  left: 1em;
+  position: absolute;
+  top: .35em;
+}
+
+.barcode-ok::before {
+  color: #00cc00;
+  content: '\2713';
+}
+
+.barcode-not-ok::before {
+  color: #cc0000;
+  content: '\2717';
+}
+
+/*
 @media print {
   body {
     height: 1.5in;
@@ -76,3 +99,4 @@ button, input[type="checkbox"] {
     page-break-after: always;
   }
 }
+*/

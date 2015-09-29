@@ -1,2 +1,4 @@
 node_modules
 config.json
+local/settings.json
+app/local/settings.json

@@ -1,13 +1,13 @@
 'use strict';
 
 let els = require('./elements')
+let rowCount = 0
 
-module.exports = function addRowToTable () {
-  let tableRowCount = getLastRowCount()
+module.exports = function addRowToTable (keydownCallback) {
   let table = els.input.tableBody
   let selectAll = !!els.input.selectAll.checked
   let tr = document.createElement('tr')
-  let rowId = 'row-' + ++tableRowCount
+  let rowId = 'row-' + ++rowCount
   tr.id = rowId
 
   let td1 = document.createElement('td')
@@ -19,7 +19,10 @@ module.exports = function addRowToTable () {
   barcode.type = 'text'
   barcode.id = rowId + '-barcode'
   barcode.className = 'input-barcode'
-  barcode.addEventListener('keydown', handleBarcodeKeydown)
+
+  if (typeof keydownCallback === 'function')
+    barcode.addEventListener('keydown', keydownCallback)
+
   td1.appendChild(barcode)
   tr.appendChild(td1)
 
@@ -35,29 +38,8 @@ module.exports = function addRowToTable () {
   barcode.focus()
 }
 
-module.exports.getLastRowCount = getLastRowCount,
-module.exports.handleBarcodeKeydown = handleBarcodeKeydown
+module.exports.getLastRowCount = getLastRowCount
 
 function getLastRowCount () {
-  let trs = document.querySelectorAll('tr[id^="row-"]')
-  if (!trs.length) return 0
-  else return Number(trs[trs.length - 1].id.replace('row-', ''))
-}
-
-function handleBarcodeKeydown (ev) {
-  if (ev.keyCode === 13) {
-    let targetId = Number(ev.target.parentElement.parentElement.id.replace('row-', ''))
-    let lastRowId = getLastRowCount()
-
-    if (targetId === lastRowId) addRowToTable()
-    else {
-      ev.target             //     <input>
-        .parentElement      //    </td>
-        .parentElement      //   </tr>
-        .nextElementSibling //   <tr>
-        .firstElementChild  //    <td>
-        .firstElementChild  //      <input>
-        .focus()
-    }
-  }
+  return rowCount
 }

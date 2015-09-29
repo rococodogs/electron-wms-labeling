@@ -1,15 +1,18 @@
 .label-container {
+  margin: auto;
+}
+
+.label {
   background-color: #fff;
   border: 1px dashed black;
   box-shadow: 0 0 1px 1px #bbb;
   height: 1.5in;
-  margin: 1em;
+  margin: 1em auto;
   overflow-y: hidden;
   position: relative;
-  width: 4in;
 }
 
-.label-container > div {
+.label > div {
   display: inline-block;
   height: 100%;
   overflow-y: hidden;
@@ -19,7 +22,7 @@
   vertical-align: top;
 }
 
-.label-container > div:focus {
+.label > div:focus {
   outline: none;
 }
 

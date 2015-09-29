@@ -9,6 +9,10 @@ module.exports = {
     tableBody: document.querySelector('.input-table tbody')
   },
 
+  label: {
+    container: document.querySelector('.label-container')
+  },
+
   groups: {
     input: {
       pocketLabels: document.querySelectorAll('.input-pocket-label')
