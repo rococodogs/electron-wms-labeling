@@ -1,8 +1,10 @@
-const config = require('./get-config')().oclc
+'use strict'
 const WSKey = require('oclc-wskey')
-const wskey = new WSKey(config.wskey.public, config.wskey.secret, config.user)
 const CopyResource = require('oclc-copy-resource')
 
-module.exports = function generateCopyResourceClient () {
-  return new CopyResource(config.institution_id, wskey)
+module.exports = function generateCopyResourceClient (settings) {
+  if (!settings) settings = require(__dirname + '/../local/settings.json').oclc
+
+  let wskey = new WSKey(settings.wskey.public, settings.wskey.secret, settings.user)
+  return new CopyResource(settings.institution_id, wskey)
 }

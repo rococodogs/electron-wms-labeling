@@ -6,24 +6,15 @@ const ipc = require('ipc')
 const addRowToTable = require(__dirname + '/lib/add-row-to-table')
 const lastRowCount = addRowToTable.getLastRowCount
 
-const config = require(__dirname + '/lib/get-config')()
 const els = require(__dirname + '/lib/elements')
 const generateLabel = require(__dirname + '/lib/generate-label')
 
-const settings = config.settings
+let settings = ipc.sendSync('window:get-settings')
 
-// placeholder for now
-const style = {
-  "label": { "width": "4in" },
-  "spine": {
-    "height": "1.5in",
-    "width": "1.5in"
-  },
-  "pocket": {
-    "height": "1.5in",
-    "width": "2.5in"
-  }
-}
+// update settings when they change in the app
+ipc.on('app:update-settings', function (update) {
+  settings = update
+})
 
 // events
 document.addEventListener('DOMContentLoaded', init)
@@ -33,7 +24,7 @@ els.input.addRow.addEventListener('click', addRowToTable)
 
 // ipc events
 ipc.on('app:item', function (info, rowId, includePocket) {
-  var label = generateLabel(info, includePocket, style)
+  var label = generateLabel(info, includePocket)
   els.label.container.appendChild(label)
   
   insertOk(rowId)
@@ -61,7 +52,7 @@ function toggleSelectAll () {
 
 function setUpTable () {
   let table = els.input.tableBody
-  let numberOfRows = settings.input_table.default_number_of_rows
+  let numberOfRows = settings.app.input_table.default_number_of_rows
   
   let i = 0
 

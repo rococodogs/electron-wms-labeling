@@ -5,14 +5,27 @@ const BrowserWindow = require('browser-window')
 const ipc = require('ipc')
 const Menu = require('menu')
 const join = require('path').join
+const fs = require('fs')
 
 // shortcuts for absolute paths
 const cwdJoin = join.bind(this, __dirname)
 const appJoin = cwdJoin.bind(this, 'app')
 const libJoin = appJoin.bind(this, 'lib')
 
-const config = require(cwdJoin('config.json'))
-const client = require(libJoin('generate-copy-resource-client'))()
+let settings
+
+try { settings = require(appJoin('local', 'settings.json')) }
+catch (e) {
+  settings = require(cwdJoin('settings.default.json'))
+  saveSettings()
+  ipc.send('app:update-settings', settings)
+}
+
+function saveSettings () {
+  fs.writeFileSync(appJoin('local', 'settings.json'), JSON.stringify(settings))
+}
+
+const client = require(libJoin('generate-copy-resource-client'))(settings.oclc)
 
 // item processing
 const queue = require('queue')()
@@ -50,7 +63,7 @@ ipc.on('window:add-barcode', function (event, barcode, pocketLabel, row) {
       let info = processCopyResource(barcode, res)
 
       if (pocketLabel === true) {
-        pocketLabelInfo(info.oclcNumber, function (pocket) {
+        pocketLabelInfo(info.oclcNumber, settings.oclc.wskey.public, function (pocket) {
           for (let m in pocket) info[m] = pocket[m]
 
           event.sender.send('app:item', info, row, pocketLabel)
@@ -65,4 +78,8 @@ ipc.on('window:add-barcode', function (event, barcode, pocketLabel, row) {
 
   queue.push(job)
   if (!queue.running) queue.start()
+})
+
+ipc.on('window:get-settings', function (ev) {
+  ev.returnValue = settings
 })

@@ -2,72 +2,31 @@
 
 const Mustache = require('mustache')
 
-// we'll generate the innerHTML for the labels by compiling mustache
-// templates (eventually provided by user) w/ the info
-
-// available keys:
-//
-// prefix: shelvingDesignation.prefix
-// callNumber: shelvingDesignation.information
-// cutter: shelvingDesignation.itemPart
-// suffix: shelvingDesignation.suffix
-// description: (holding.caption ? holding.caption.description : null)
-// enumeration: (holding.caption ? holding.caption.enumeration : null)
-// chronology: (holding.caption ? holding.caption.chronology : null)
-// oclcNumber: entry.bib.replace('/bibs/', '')
-// title
-// author
-
-// DVD
-// 791.4372
-// A123b
-// v2 copy 2
-let spineTemplate = '{{# prefix}}{{ prefix}}<br>{{/ prefix}}'
-                   + '{{ callNumber }}<br>'
-                   + '{{ cutter }}<br>'
-                   + '{{# description }}{{ description }} {{/ description }}'
-                   + '{{# enumeration }}{{ enumeration }}{{/ enumeration }}'
-
-Mustache.parse(spineTemplate)
-
-// DVD 791.4372 A123b v2 copy 2
-let pocketTemplate = '{{ prefix }} {{ callNumber }} {{ cutter }} '
-                   + '{{# description }}{{ description }}{{/ description }} '
-                   + '{{# enumeration }}{{ enumeration }}{{/ enumeration }}<br>'
-                   + '{{ title }} / {{ author }}'
-
-Mustache.parse(pocketTemplate)
-
 // returns an HtmlDivElement to add to the dom
+module.exports = function generateLabels (info, includePocket) {
+  // loading the settings w/ each call in the event that the settings change
+  let settings = require(__dirname + '/../local/settings.json').app
+  let spineTemplate = settings.templates.spine
+  let pocketTemplate = settings.templates.pocket
 
+  // pre-parsing may not be necessary since we're loading from scratch 
+  // w/ each call
+  Mustache.parse(spineTemplate)
+  Mustache.parse(pocketTemplate)
 
-// config is an object:
-// {
-//   "label": { "width": "4in" }
-//   "spine": {
-//     "height": "1.5in"
-//     "width": "1.5in"
-//   },
-//   "pocket": {
-//     "height": "1.5in"
-//     "width": "2.5in"
-//   }
-// }
+  // our dimensions are stored in the config JSON as `HtmlElement.style` properties
+  let spineStyle = settings.dimensions.spine
+  let pocketStyle = !!includePocket ? settings.dimensions.pocket : { display: 'none' }
+  let labelStyle = settings.dimensions.label
 
-module.exports = function generateLabels (info, includePocket, config) {
-  var spineStyle = config.spine
-  var pocketStyle = !!includePocket ? config.pocket : { display: 'none' }
-  var labelStyle = config.label
-
-  // labelStyle['margin'] = 'auto'
-
-  var container = generateLabelContainer(labelStyle)
-  var spine = generateSpineLabel(info, spineTemplate, spineStyle)
-  var pocket = includePocket 
+  // build the elements
+  let container = generateLabelContainer(labelStyle)
+  let spine = generateSpineLabel(info, spineTemplate, spineStyle)
+  let pocket = includePocket 
                ? generatePocketLabel(info, pocketTemplate, pocketStyle)
                : generatePocketLabel({}, '', pocketStyle)
 
-  // set contenteditable for each
+  // set contenteditable for spine + pocket (for revisions, etc.)
   spine.contentEditable = true 
   pocket.contentEditable = true
 
@@ -83,13 +42,11 @@ function generateLabelContainer (style) {
 
 function generatePocketLabel (info, template, style) {
   let html = Mustache.render(template, info)
-
   return generateDiv('label-pocket', html, style)
 }
 
 function generateSpineLabel (info, template, style) {
   let html = Mustache.render(template, info)
-
   return generateDiv('label-spine', html, style)
 }
 

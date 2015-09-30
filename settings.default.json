@@ -1,0 +1,38 @@
+{
+  "oclc": {
+    "institution_id": 128807,
+    "wskey": {
+      "public": "",
+      "secret": ""
+    },
+
+    "user": {
+      "principalID": "",
+      "principalIDNS": ""    
+    }
+  },
+
+  "app": {
+    "input_table": {
+      "default_number_of_rows": 10
+    },
+    "dimensions": {
+      "label": {
+        "height": "1.5in",
+        "width": "4in"
+      },
+      "spine": {
+        "height": "1.5in",
+        "width": "1.25in"
+      },
+      "pocket": {
+        "height": "1.5in",
+        "width": "2.75in"
+      }
+    },
+    "templates": {
+      "spine": "{{# prefix}}{{ prefix}}<br>{{/ prefix}}\n{{ callNumber }}<br>\n{{ cutter }}<br>\n{{# description }}{{ description }} {{/ description }}\n{{# enumeration }}{{ enumeration }}{{/ enumeration }}",
+      "pocket": "{{ prefix }} {{ callNumber }} {{ cutter }}\n{{# description }}{{ description }}{{/ description }} \n{{# enumeration }}{{ enumeration }}{{/ enumeration }}<br>\n{{ title }} / {{ author }}"
+    }
+  }
+}
