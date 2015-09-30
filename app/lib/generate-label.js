@@ -67,6 +67,10 @@ module.exports = function generateLabels (info, includePocket, config) {
                ? generatePocketLabel(info, pocketTemplate, pocketStyle)
                : generatePocketLabel({}, '', pocketStyle)
 
+  // set contenteditable for each
+  spine.contentEditable = true 
+  pocket.contentEditable = true
+
   container.appendChild(spine)
   container.appendChild(pocket)
 
