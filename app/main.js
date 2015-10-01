@@ -1,3 +1,4 @@
+/* global HTMLSpanElement */
 'use strict'
 
 const ipc = require('ipc')
@@ -9,25 +10,39 @@ const lastRowCount = addRowToTable.getLastRowCount
 const els = require(__dirname + '/lib/elements')
 const generateLabel = require(__dirname + '/lib/generate-label')
 
+// first-things-first, we'll have to get the settings that are
+// loaded on the main process
 let settings = ipc.sendSync('window:get-settings')
+
+// set-up (preload the table)
+document.addEventListener('DOMContentLoaded', init)
+
+// header collapse/expand (currently just hiding the body)
+els.input.header.addEventListener('click', toggleInputBody)
+
+// select all toggle button
+els.input.selectAll.addEventListener('change', toggleSelectAll)
+
+// add row to the table after clicking the 'Add Row' button
+els.input.addRow.addEventListener('click', addRowToTable)
 
 // update settings when they change in the app
 ipc.on('app:update-settings', function (update) {
   settings = update
 })
 
-// events
-document.addEventListener('DOMContentLoaded', init)
-els.input.header.addEventListener('click', toggleInputBody)
-els.input.selectAll.addEventListener('change', toggleSelectAll)
-els.input.addRow.addEventListener('click', addRowToTable)
-
-// ipc events
+// handle an item being returned from the main process
 ipc.on('app:item', function (info, rowId, includePocket) {
   var label = generateLabel(info, includePocket)
   els.label.container.appendChild(label)
   
   insertOk(rowId)
+})
+
+// if an error's returned, we'll need to handle that
+ipc.on('app:item-error', function (err, rowId) {
+  // alert the err
+  insertNotOk(rowId)
 })
 
 function init () {
@@ -66,15 +81,8 @@ function setUpTable () {
        .focus()
 }
 
-
-function insertOk (rowId) {
-  return insertBarcodeSprite('ok', rowId)
-}
-
-function insertNotOk (rowId) {
-  return insertBarcodeSprite('not-ok', rowId)
-}
-
+// adds a span::before pseudo-element before the first element
+// of a row. currently only uses 'ok' and 'not-ok'
 function insertBarcodeSprite(which, rowId) {
   var tr = document.getElementById(rowId)
   var td = tr.firstElementChild
@@ -84,6 +92,20 @@ function insertBarcodeSprite(which, rowId) {
   td.insertBefore(sprite, td.firstElementChild)
 }
 
+// add a checkmark to a row
+function insertOk (rowId) {
+  return insertBarcodeSprite('ok', rowId)
+}
+
+// add an X to a row
+function insertNotOk (rowId) {
+  return insertBarcodeSprite('not-ok', rowId)
+}
+
+// currently only handling an `Enter` keystroke (either by the user
+// or a barcode scanner), which kicks sends the barcode to the main
+// process (for gathering label info) and moving the cursor to the
+// next line, adding a row if none present
 function handleBarcodeKeydown (ev) {
   if (ev.keyCode === 13) {
     let id = Number(ev.target.id.replace(/row-|-barcode/g, ''))
