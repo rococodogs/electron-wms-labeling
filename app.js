@@ -4,7 +4,6 @@
 const app = require('app')
 const BrowserWindow = require('browser-window')
 const ipc = require('ipc')
-const Menu = require('menu')
 const join = require('path').join
 const fs = require('fs')
 
@@ -24,8 +23,9 @@ let mainWindow
 
 // try loading settings from the app/local/settings.json file,
 // + if it doesn't exist, copy the default settings
-try { settings = require(appJoin('local', 'settings.json')) }
-catch (e) {
+try {
+  settings = require(appJoin('local', 'settings.json'))
+} catch (e) {
   settings = require(cwdJoin('settings.default.json'))
   saveSettings()
   ipc.send('app:update-settings', settings)
@@ -86,7 +86,7 @@ function handleAddBarcodeRequest (ev, bc, pl, id) {
 
 function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
   return client.barcode(barcode, function (err, res) {
-    if (err) return event.sender.send('app:item-error', err)
+    if (err) return event.sender.send('app:item-error', err, rowId)
 
     // takes in the results object from OCLC + extracts
     // the pieces we need
@@ -106,10 +106,8 @@ function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
         event.sender.send('app:item', info, rowId, pocketLabel)
         return cb()
       })
-    }
-
-    // otherwise send the pre-pocketlabel info back
-    else {
+    } else {
+      // otherwise send the pre-pocketlabel info back
       event.sender.send('app:item', info, rowId, pocketLabel)
       return cb()
     }

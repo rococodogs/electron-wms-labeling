@@ -35,13 +35,13 @@ ipc.on('app:update-settings', function (update) {
 ipc.on('app:item', function (info, rowId, includePocket) {
   var label = generateLabel(info, includePocket)
   els.label.container.appendChild(label)
-  
+
   insertOk(rowId)
 })
 
 // if an error's returned, we'll need to handle that
 ipc.on('app:item-error', function (err, rowId) {
-  // alert the err
+  if (err) return // TODO: alert the err
   insertNotOk(rowId)
 })
 
@@ -68,7 +68,7 @@ function toggleSelectAll () {
 function setUpTable () {
   let table = els.input.tableBody
   let numberOfRows = settings.app.input_table.default_number_of_rows
-  
+
   let i = 0
 
   for (; i < numberOfRows; i++) addRowToTable(handleBarcodeKeydown)
@@ -83,7 +83,7 @@ function setUpTable () {
 
 // adds a span::before pseudo-element before the first element
 // of a row. currently only uses 'ok' and 'not-ok'
-function insertBarcodeSprite(which, rowId) {
+function insertBarcodeSprite (which, rowId) {
   var tr = document.getElementById(rowId)
   var td = tr.firstElementChild
   var sprite = document.createElement('span')

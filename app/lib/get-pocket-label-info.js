@@ -17,14 +17,16 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
     let atAuthor = false
 
     let out = {}
-    
+
     p.onStartElementNS(function (el, attrs) {
       if (atTag && el === 'subfield') {
         if (attrs[0][0] === 'code') {
-          switch(attrs[0][1]) {
-            case 'a': return atTitle = true
-            case 'c': return atAuthor = true
+          switch (attrs[0][1]) {
+            case 'a': atTitle = true; break
+            case 'c': atAuthor = true; break
           }
+
+          return
         }
       }
 
@@ -32,7 +34,8 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
         for (let a = 0; a < attrs.length; a++) {
           let attr = attrs[a]
           if (attr[0] === 'tag' && attr[1] === '245') {
-            return atTag = true
+            atTag = true
+            return
           }
         }
       }
@@ -40,18 +43,21 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
 
     p.onEndElementNS(function (el) {
       if (atTag && el === 'subfield') {
-        if (atTitle) return atTitle = false
-        if (atAuthor) return atAuthor = false
+        if (atTitle) atTitle = false
+        if (atAuthor) atAuthor = false
+        return
       }
 
       if (atTag && el === 'datafield') {
-        return atTag = false
+        atTag = false
+        return
       }
     })
 
     p.onCharacters(function (val) {
-      if (atTitle) return out['title'] = val.replace(/\/\s*$/, '').trim()
-      if (atAuthor) return out['author'] = val.trim()
+      if (atTitle) out['title'] = val.replace(/\/\s*$/, '').trim()
+      if (atAuthor)out['author'] = val.trim()
+      return
     })
 
     p.onEndDocument(function () {

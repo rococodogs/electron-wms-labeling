@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 let els = require('./elements')
 let rowCount = 0
@@ -20,8 +20,9 @@ module.exports = function addRowToTable (keydownCallback) {
   barcode.id = rowId + '-barcode'
   barcode.className = 'input-barcode'
 
-  if (typeof keydownCallback === 'function')
+  if (typeof keydownCallback === 'function') {
     barcode.addEventListener('keydown', keydownCallback)
+  }
 
   td1.appendChild(barcode)
   tr.appendChild(td1)
@@ -34,7 +35,7 @@ module.exports = function addRowToTable (keydownCallback) {
   tr.appendChild(td2)
 
   table.appendChild(tr)
-  
+
   barcode.focus()
 }
 

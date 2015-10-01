@@ -3,7 +3,7 @@
 // does the heavy lifting to extract a call number from a copy resource record
 module.exports = function processCopyResource (barcode, copyResource) {
   if (typeof barcode === 'number') barcode = String(barcode)
-  
+
   let entry = copyResource.entry
 
   // TODO: handle exceptions in a better way
