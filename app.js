@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // requirements
 const app = require('app')
@@ -110,7 +110,7 @@ function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
 
     // otherwise send the pre-pocketlabel info back
     else {
-      sender.send('app:item', info, rowId, pocketLabel)
+      event.sender.send('app:item', info, rowId, pocketLabel)
       return cb()
     }
   })
