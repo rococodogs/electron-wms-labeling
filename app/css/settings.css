@@ -1,0 +1,104 @@
+.menu-items {
+  float: left;
+  width: 30%;
+}
+
+.tabs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tab {
+  background-color: #e5e5e5;
+  border: 1px solid #c3c3c3;
+  position: relative;
+}
+
+.tab a {
+  color: #cc092f;
+  display: inline-block;
+  padding: 15px;
+  width: 100%;
+}
+
+.tab.tab-open {
+  background-color: #fff;
+}
+
+.tab.tab-open::after {
+  content: '>';
+  display: inline-block;
+  font-size: 1.25em;
+  font-weight: bold;
+  position: absolute;
+  right: 1em;
+  top: .65em;
+}
+
+.pages {
+  margin-left: 30%;
+  width: 70%;
+}
+
+.page {
+  display: none;
+  padding: 10px;
+}
+
+.page.page-open {
+  display: block;
+}
+
+.page h1:first-of-type {
+  margin-top: 0;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  font-size: 1em;
+}
+
+.input-group {
+  display: block;
+  margin: .25em auto;
+}
+
+.input-group label {
+  display: inline-block;
+  text-align: right;
+  width: 7em;
+}
+
+.input-group input,
+.input-group textarea {
+  border: 1px solid #c4c4c4;
+  margin-left: 1em;
+  padding: auto .25em;
+  width: 75%;
+}
+
+.input-group textarea {
+  vertical-align: middle;
+}
+
+.template {
+  display: inline-block;
+  font-family: monospace;
+  width: 65%;
+}
+
+.template-example {
+  display: inline-block;
+  vertical-align: top;
+  width: 34%;
+}
+
+.template-example h3 {
+  border-bottom: 1px dotted #666;
+  color: #666;
+  margin: 0;
+  margin-bottom: .5em;
+  padding: 0;
+}

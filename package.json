@@ -8,7 +8,7 @@
     "mustache": "^2.1.3",
     "node-xml": "^1.0.2",
     "oclc-copy-resource": "^1.0.0",
-    "oclc-wskey": "^2.1.0"
+    "oclc-wskey": "^2.1.0",
   },
   "devDependencies": {
     "electron-builder": "^2.0.0",
