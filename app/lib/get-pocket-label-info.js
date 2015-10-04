@@ -16,7 +16,10 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
     let atTitle = false
     let atAuthor = false
 
-    let out = {}
+    let out = {
+      title: '',
+      author: ''
+    }
 
     p.onStartElementNS(function (el, attrs) {
       if (atTag && el === 'subfield') {
@@ -55,8 +58,10 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
     })
 
     p.onCharacters(function (val) {
-      if (atTitle) out['title'] = val.replace(/\/\s*$/, '').trim()
-      if (atAuthor)out['author'] = val.trim()
+      if (atTitle) console.log('val:', val)
+
+      if (atTitle) out['title'] += val.replace(/\/\s*$/, '')
+      if (atAuthor)out['author'] += val
       return
     })
 
