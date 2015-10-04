@@ -2,13 +2,14 @@
 'use strict'
 
 const ipc = require('ipc')
+const join = require('path').join
 
 // lib functions
-const addRowToTable = require(__dirname + '/lib/add-row-to-table')
+const addRowToTable = require(join(__dirname, 'lib', 'add-row-to-table'))
 const lastRowCount = addRowToTable.getLastRowCount
 
-const els = require(__dirname + '/lib/elements')
-const generateLabel = require(__dirname + '/lib/generate-label')
+const els = require(join(__dirname, 'lib', 'elements'))
+const generateLabel = require(join(__dirname, 'lib', 'generate-label'))
 
 // first-things-first, we'll have to get the settings that are
 // loaded on the main process
@@ -67,7 +68,7 @@ function toggleSelectAll () {
 
 function setUpTable () {
   let table = els.input.tableBody
-  let numberOfRows = settings.app.input_table.default_number_of_rows
+  let numberOfRows = settings['default_number_of_inputs'] || 10
 
   let i = 0
 

@@ -7,7 +7,7 @@ const baseUrl = 'http://www.worldcat.org/webservices/catalog/content/'
 module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
   if (typeof wskey === 'function') {
     callback = wskey
-    wskey = require(__dirname + '/../local/settings.json').oclc.wskey.public
+    wskey = require(__dirname + '/../local/settings.json')['wskey.public']
   }
 
   const url = `${baseUrl}${oclcNumber}?wskey=${wskey}&recordSchema=marcxml`

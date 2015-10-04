@@ -5,19 +5,35 @@ const Mustache = require('mustache')
 // returns an HtmlDivElement to add to the dom
 module.exports = function generateLabels (info, includePocket) {
   // loading the settings w/ each call in the event that the settings change
-  let settings = require(__dirname + '/../local/settings.json').app
-  let spineTemplate = settings.templates.spine
-  let pocketTemplate = settings.templates.pocket
+  let settings = require(__dirname + '/../local/settings.json')
+  let spineTemplate = settings['template.spine']
+  let pocketTemplate = settings['template.pocket']
 
   // pre-parsing may not be necessary since we're loading from scratch
   // w/ each call
   Mustache.parse(spineTemplate)
   Mustache.parse(pocketTemplate)
 
-  // our dimensions are stored in the config JSON as `HtmlElement.style` properties
-  let spineStyle = settings.dimensions.spine
-  let pocketStyle = !!includePocket ? settings.dimensions.pocket : { display: 'none' } // eslint-disable-line
-  let labelStyle = settings.dimensions.label
+  let spineStyle = {
+    height: settings['spine.height'],
+    width: settings['spine.width']
+  }
+
+  let pocketStyle
+
+  if (!!includePocket) {
+    pocketStyle = {
+      height: settings['pocket.height'],
+      width: settings['pocket.width']
+    }
+  } else {
+    pocketStyle = { display: 'none' }
+  }
+
+  let labelStyle = {
+    height: settings['label.height'],
+    width: settings['label.width']
+  }
 
   // build the elements
   let container = generateLabelContainer(labelStyle)

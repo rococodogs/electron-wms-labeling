@@ -16,10 +16,12 @@ const libJoin = appJoin.bind(this, 'lib')
 const queue = require('queue')()
 const processCopyResource = require(libJoin('process-copy-resource'))
 const pocketLabelInfo = require(libJoin('get-pocket-label-info'))
+const generateCRClient = require(libJoin('generate-copy-resource-client'))
 
 // prevent our settings + mainWindow from being gc'd
 let settings
 let mainWindow
+let configWindow
 
 // try loading settings from the app/local/settings.json file,
 // + if it doesn't exist, copy the default settings
@@ -37,7 +39,7 @@ function saveSettings () {
 }
 
 // abstracted copyResource client construction, built after our settings are loaded
-const client = require(libJoin('generate-copy-resource-client'))(settings.oclc)
+const client = generateCRClient(settings)
 
 // calling `npm start debug` will open the dev-tools by default
 let showDevTools = !!(process.argv[2] === 'debug')
@@ -96,7 +98,7 @@ function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
     // another request to get the title/author fields via OCLC's
     // search API
     if (pocketLabel === true) {
-      pocketLabelInfo(info.oclcNumber, settings.oclc.wskey.public, function (pocket) {
+      pocketLabelInfo(info.oclcNumber, settings['wskey.public'], function (pocket) {
         for (let m in pocket) info[m] = pocket[m]
 
         // send the info back to the ipc sender:
