@@ -102,3 +102,7 @@ textarea {
   margin-bottom: .5em;
   padding: 0;
 }
+
+input.saved, textarea.saved {
+  border: 1px solid #55c500;
+}
