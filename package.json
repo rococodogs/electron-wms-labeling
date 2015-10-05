@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/electron .",
+    "sync": "node sync-defaults",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
