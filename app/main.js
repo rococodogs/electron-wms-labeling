@@ -13,7 +13,7 @@ const generateLabel = require(join(__dirname, 'lib', 'generate-label'))
 
 // first-things-first, we'll have to get the settings that are
 // loaded on the main process
-let settings = ipc.sendSync('window:get-settings')
+let settings = ipc.sendSync('get-settings-sync')
 
 // set-up (preload the table)
 document.addEventListener('DOMContentLoaded', init)
@@ -26,11 +26,6 @@ els.input.selectAll.addEventListener('change', toggleSelectAll)
 
 // add row to the table after clicking the 'Add Row' button
 els.input.addRow.addEventListener('click', addRowToTable)
-
-// update settings when they change in the app
-ipc.on('app:update-settings', function (update) {
-  settings = update
-})
 
 // handle an item being returned from the main process
 ipc.on('app:item', function (info, rowId, includePocket) {
@@ -46,8 +41,15 @@ ipc.on('app:item-error', function (err, rowId) {
   insertNotOk(rowId)
 })
 
+// update settings when changed in config
+ipc.on('config:update-settings', function (updated) {
+  console.log('main got `config:update-settings`')
+  settings = updated
+})
+
 function init () {
   setUpTable()
+  ipc.send('window:open-config')
 }
 
 function toggleInputBody (ev) {

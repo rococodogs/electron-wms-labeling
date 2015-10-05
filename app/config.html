@@ -4,63 +4,124 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>WMS Labeling - Config</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/config.css">
   </head>
   <body>
     <div class="menu-items">
       <ul class="tabs">
-        <li class="tab tab-open"><a href="#" data-target="oclc-config">OCLC config</a></li>
-        <li class="tab"><a href="#" data-target="app-config">App config</a></li>
+        <li class="tab"><a href="#" data-target="oclc-config">OCLC config</a></li>
+        <li class="tab tab-open"><a href="#" data-target="app-config">App / Label config</a></li>
         <li class="tab"><a href="#" data-target="label-templates">Label templates</a></li>
       </ul>
     </div>
     <div class="pages">
-      <div id="oclc-config" class="page page-open">
+      <div id="oclc-config" class="page">
         <h1>OCLC Config</h1>
-        <form>
-          
-          <h2>Institution ID</h2>
-          <input type="text" id="oclc-institution_id">
+        <h2>Institution ID</h2>
+        <input type="text" id="oclc-institution_id">
 
-          <h2>WSKey</h2>
-          <div class="input-group">
-            <label for="wskey-public">Public</label>
-            <textarea id="wskey-public"></textarea>
-          </div>
+        <h2>WSKey</h2>
+        <div class="input-group">
+          <label for="wskey-public">Public</label>
+          <textarea id="wskey-public"></textarea>
+        </div>
 
-          <div class="input-group">
-            <label for="wskey-secret">Secret</label>
-            <input type="text" id="wskey-secret">
-          </div>
+        <div class="input-group">
+          <label for="wskey-secret">Secret</label>
+          <input type="text" id="wskey-secret">
+        </div>
 
-          <h2>User</h2>
-          <div class="input-group">
-            <label for="principal-id">Principal ID</label>
-            <input type="text" id="user-principalID">
-          </div>
+        <h2>User</h2>
+        <div class="input-group">
+          <label for="principal-id">Principal ID</label>
+          <input type="text" id="user-principalID">
+        </div>
 
-          <div class="input-group">
-            <label for="principal-idns">Principal IDNS</label>
-            <input type="text" id="user-principalIDNS" data-setting-key="user.principalIDNS">
-          </div>
-
-          <button>Update</button>
-        </form>
+        <div class="input-group">
+          <label for="principal-idns">Principal IDNS</label>
+          <input type="text" id="user-principalIDNS" data-setting-key="user.principalIDNS">
+        </div>
       </div>
-      <div id="app-config" class="page">
+
+      <div id="app-config" class="page page-open">
         <h1>App config</h1>
-        <form>
-          <h2>Default number of rows</h2>
-          <input type="number" id="default_number_of_inputs">
-        </form>
+        <h2>Default number of rows</h2>
+        <input type="number" id="default_number_of_inputs">
+
+        <h1>Label config</h1>
+        <h2>Dimensions</h2>
+        
+        <h3>Label</h3>
+        <div class="input-group">
+          <label for="label-height">Height</label>
+          <input type="number" id="label-height">
+          inches
+        </div>
+
+        <div class="input-group">
+          <label for="label-width">Width</label>
+          <input type="number" id="label-width">
+          inches
+        </div>
+
+        <h3>Spine</h3>
+        <div class="input-group">
+          <label for="spine-height">Height</label>
+          <input type="number" id="spine-height">
+          inches
+        </div>
+
+        <div class="input-group">
+          <label for="spine-width">Width</label>
+          <input type="number" id="spine-width">
+          inches
+        </div>
+
+        <h3>Pocket</h3>
+         <div class="input-group">
+          <label for="pocket-height">Height</label>
+          <input type="number" id="pocket-height">
+          inches
+        </div>
+
+        <div class="input-group">
+          <label for="pocket-width">Width</label>
+          <input type="number" id="pocket-width">
+          inches
+        </div>
       </div>
+
       <div id="label-templates" class="page">
         <h1>Label templates</h1>
+        <p>Labels are generated using the <strong>Mustache</strong> templating syntax.
+        Visit the <a href="https://mustache.github.io/mustache.5.html">manual</a> for information on usage. Each
+        template here is provided with the following example data:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>author</code></td><td>Example Author</td></tr>
+            <tr><td><code>callNumber</code></td><td>791.4372</td></tr>
+            <tr><td><code>chronology</code></td><td>no. 2</td></tr>
+            <tr><td><code>cutter</code></td><td>F5855a</td></tr>
+            <tr><td><code>description</code></td><td>v. 1</td></tr>
+            <tr><td><code>enumeration</code></td><td>12</td></tr>
+            <tr><td><code>oclcNumber</code></td><td>12345678</td></tr>
+            <tr><td><code>prefix</code></td><td>DVD</td></tr>
+            <tr><td><code>suffix</code></td><td>Suf.</td></tr>
+            <tr><td><code>title</code></td><td>Title of Work</td></tr>
+          </tbody>
+        </table>
+        </p>
         <h2>Spine Label</h2>
         <div class="template-container">
-          <textarea class="template" id="template-spine" rows="20"></textarea>
+          <textarea class="template" id="template-spine" rows="10"></textarea>
           <div id="template-spine-example" class="template-example">
             <h3>Example</h3>
             <div class="content"></div>
@@ -68,7 +129,7 @@
         </div>
         <h2>Pocket Label</h2>
         <div class="template-container">
-          <textarea class="template" id="template-pocket" rows="20"></textarea>
+          <textarea class="template" id="template-pocket" rows="10"></textarea>
           <div id="template-pocket-example" class="template-example">
             <h3>Example</h3>
             <div class="content"></div>
@@ -76,8 +137,8 @@
         </div>
       </div>
     </div>
+
     <script src="config.js"></script>
-    <!-- <script src="bundle.js"></script> -->
   </body>
 </html>
 

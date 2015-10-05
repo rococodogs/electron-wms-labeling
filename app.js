@@ -30,7 +30,6 @@ try {
 } catch (e) {
   settings = require(cwdJoin('settings.default.json'))
   saveSettings()
-  ipc.send('app:update-settings', settings)
 }
 
 // writes the settings object to file
@@ -66,9 +65,38 @@ app.on('ready', function () {
   })
 })
 
-// handle messages from the app window
+// barcode requests from the main window
 ipc.on('window:add-barcode', handleAddBarcodeRequest)
-ipc.on('window:get-settings', function (ev) { ev.returnValue = settings })
+
+// sync/async ways to get settings
+ipc.on('get-settings-sync', function (ev) { ev.returnValue = settings })
+ipc.on('get-settings', function (ev) { ev.sender.send('app:settings', settings) })
+
+// launch the config window
+ipc.on('window:open-config', function (ev) {
+  // prevent multiple config windows from opening
+  if (configWindow) return configWindow.focus()
+
+  configWindow = new BrowserWindow({
+    height: 800,
+    width: 1000,
+    title: 'WMS Labeling - Config'
+  })
+
+  configWindow.loadUrl('file://' + __dirname + '/app/config.html')
+  configWindow.on('close', function () {
+    configWindow = null
+  })
+})
+
+// handle updates from the config window
+ipc.on('config:update-settings', function (ev, updated, changedKey) {
+  settings = updated
+  saveSettings()
+
+  // send the key back to update the element in the window
+  ev.sender.send('app:updated-setting-key', changedKey)
+})
 
 // adds job to queue + starts it if not running
 function handleAddBarcodeRequest (ev, bc, pl, id) {

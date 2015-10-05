@@ -18,22 +18,15 @@
 .tab a {
   color: #cc092f;
   display: inline-block;
+  font-size: 1.25em;
+  font-weight: bold;
   padding: 15px;
+  text-decoration: none;
   width: 100%;
 }
 
 .tab.tab-open {
   background-color: #fff;
-}
-
-.tab.tab-open::after {
-  content: '>';
-  display: inline-block;
-  font-size: 1.25em;
-  font-weight: bold;
-  position: absolute;
-  right: 1em;
-  top: .65em;
 }
 
 .pages {
@@ -60,6 +53,10 @@ textarea {
   font-size: 1em;
 }
 
+label {
+  display: block;
+}
+
 .input-group {
   display: block;
   margin: .25em auto;
@@ -67,16 +64,19 @@ textarea {
 
 .input-group label {
   display: inline-block;
-  text-align: right;
-  width: 7em;
+  width: 6em;
 }
 
-.input-group input,
+.input-group input[type="text"],
 .input-group textarea {
   border: 1px solid #c4c4c4;
   margin-left: 1em;
   padding: auto .25em;
   width: 75%;
+}
+
+.input-group input[type="number"] {
+  width: 15%;
 }
 
 .input-group textarea {
@@ -86,6 +86,7 @@ textarea {
 .template {
   display: inline-block;
   font-family: monospace;
+  font-size: 12px;
   width: 65%;
 }
 
@@ -105,4 +106,25 @@ textarea {
 
 input.saved, textarea.saved {
   border: 1px solid #55c500;
+}
+
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
+
+th {
+  border-bottom: 1px solid #ccc;
+}
+
+tbody tr:hover {
+  background-color: #eee;
+}
+
+tr td:first-of-type {
+  border-right: 1px solid #ccc;
+}
+
+tr, td {
+  padding: 2px 10px; 
 }

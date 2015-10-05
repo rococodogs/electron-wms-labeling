@@ -9,14 +9,16 @@
   
   "default_number_of_inputs": 10,
   
-  "label.height": "1.5in",
-  "label.width": "4in",
+  "dimension_unit": "in",
+
+  "label.height": "1.5",
+  "label.width": "4",
   
-  "spine.height": "1.5in",
-  "spine.width": "1.25in",
+  "spine.height": "1.5",
+  "spine.width": "1.25",
   
-  "pocket.height": "1.5in",
-  "pocket.width": "2.75in",
+  "pocket.height": "1.5",
+  "pocket.width": "2.75",
   
   "template.spine": "{{# prefix}}{{ prefix}}<br>{{/ prefix}}\n{{ callNumber }}<br>\n{{ cutter }}<br>\n{{# description }}{{ description }} {{/ description }}\n{{# enumeration }}{{ enumeration }}{{/ enumeration }}",
   

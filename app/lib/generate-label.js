@@ -15,24 +15,24 @@ module.exports = function generateLabels (info, includePocket) {
   Mustache.parse(pocketTemplate)
 
   let spineStyle = {
-    height: settings['spine.height'],
-    width: settings['spine.width']
+    height: unitize(settings['spine.height']),
+    width: unitize(settings['spine.width'])
   }
 
   let pocketStyle
 
   if (!!includePocket) {
     pocketStyle = {
-      height: settings['pocket.height'],
-      width: settings['pocket.width']
+      height: unitize(settings['pocket.height']),
+      width: unitize(settings['pocket.width'])
     }
   } else {
     pocketStyle = { display: 'none' }
   }
 
   let labelStyle = {
-    height: settings['label.height'],
-    width: settings['label.width']
+    height: unitize(settings['label.height']),
+    width: unitize(settings['label.width'])
   }
 
   // build the elements
@@ -80,3 +80,7 @@ function generateDiv (className, innerHTML, style) {
   return div
 }
 
+function unitize (number) {
+  let unit = settings['dimension_unit']
+  return number + '' + unit
+}
