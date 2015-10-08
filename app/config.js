@@ -25,6 +25,7 @@ const inputElements = {
 
   // app config
   'default_number_of_inputs': document.getElementById('default_number_of_inputs'),
+  'default_select_all': document.getElementById('default_select_all'),
 
   // label config
   'label-height':  document.getElementById('label-height'),
@@ -109,13 +110,29 @@ function initTabs () {
 function preloadInputs () {
   for (let k in settings) {
     let el = inputElements[k] || document.getElementById(keyToId(k))
-    if (el) el.value = settings[k]
-      if (!el) console.log(k)
+    if (el) {
+      let val = cleanValue(settings[k])
+
+      // handle checkboxes/toggles
+      if (val === true || val === false) {
+        el.checked = val
+      } else {
+        el.value = settings[k]
+      }
+    }
   }
 
   forEach.call(document.querySelectorAll('.template'), function (t) {
     renderExample(t)
   })
+
+  function cleanValue (val) {
+    switch (val) {
+      case 'true': return true
+      case 'false': return false
+      default: return val
+    }
+  }
 }
 
 // set up all links to open externally
@@ -185,7 +202,7 @@ function setupInputListeners (els) {
   function onchange (ev) {
     let el = ev.target
     let key = idToKey(el.id)
-    let val = el.value
+    let val = (el.type === 'checkbox') ? !!el.checked : el.value
 
     settings[key] = val
 
