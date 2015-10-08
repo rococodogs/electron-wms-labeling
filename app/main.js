@@ -54,6 +54,10 @@ ipc.on('menu:open-config', function () {
 
 function init () {
   setUpTable()
+  if (settings.default_select_all === true) {
+    els.input.selectAll.checked = true
+    toggleSelectAll()
+  }
 }
 
 function toggleInputBody (ev) {
