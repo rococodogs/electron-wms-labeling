@@ -58,8 +58,6 @@ module.exports = function getPocketLabelInfo (oclcNumber, wskey, callback) {
     })
 
     p.onCharacters(function (val) {
-      if (atTitle) console.log('val:', val)
-
       if (atTitle) out['title'] += val.replace(/\/\s*$/, '')
       if (atAuthor)out['author'] += val
       return
