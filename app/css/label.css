@@ -12,7 +12,8 @@
   position: relative;
 }
 
-.label > div {
+.label .label-spine,
+.label .label-pocket {
   display: inline-block;
   height: 100%;
   overflow-y: hidden;
@@ -43,4 +44,22 @@
   right: 1em;
   top: 1em;
   width: 40em;
+}
+
+.close-btn {
+  display: none;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 0 1px 0 #666;
+  border-radius: 5px;
+  color: red;
+  font-size: 0.7em;
+  position: absolute;
+  text-transform: lowercase;
+  top: 0;
+  z-index: 9999;
+}
+
+.label:hover .close-btn {
+  display: inline-block;
 }

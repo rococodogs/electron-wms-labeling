@@ -46,10 +46,23 @@ module.exports = function generateLabels (info, includePocket) {
   spine.contentEditable = true
   pocket.contentEditable = true
 
+  container.appendChild(generateCloseButton())
   container.appendChild(spine)
   container.appendChild(pocket)
 
   return container
+}
+
+function generateCloseButton () {
+  var btn = document.createElement('button')
+  btn.className = 'close-btn'
+  btn.onclick = function () {
+    this.parentElement.parentElement.removeChild(this.parentElement)
+  }
+  btn.innerText = 'x'
+  btn.title = 'Remove label'
+
+  return btn
 }
 
 function generateLabelContainer (style) {
