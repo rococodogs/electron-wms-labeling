@@ -7,6 +7,10 @@ const ipc = require('ipc')
 const join = require('path').join
 const fs = require('fs')
 
+const Menu = require('menu')
+const template = require(__dirname + '/menu-template')
+const mainMenu = Menu.buildFromTemplate(template)
+
 // shortcuts for absolute paths
 const cwdJoin = join.bind(this, __dirname)
 const appJoin = cwdJoin.bind(this, 'app')
@@ -50,6 +54,8 @@ app.on('window-all-closed', function () {
 
 // handle loading the app
 app.on('ready', function () {
+  Menu.setApplicationMenu(mainMenu)
+
   let windowOpts = {
     width: 600,
     height: 1000,
@@ -73,21 +79,7 @@ ipc.on('get-settings-sync', function (ev) { ev.returnValue = settings })
 ipc.on('get-settings', function (ev) { ev.sender.send('app:settings', settings) })
 
 // launch the config window
-ipc.on('window:open-config', function (ev) {
-  // prevent multiple config windows from opening
-  if (configWindow) return configWindow.focus()
-
-  configWindow = new BrowserWindow({
-    height: 800,
-    width: 1000,
-    title: 'WMS Labeling - Config'
-  })
-
-  configWindow.loadUrl('file://' + __dirname + '/app/config.html')
-  configWindow.on('close', function () {
-    configWindow = null
-  })
-})
+ipc.on('window:open-config', openConfig)
 
 // handle updates from the config window
 ipc.on('config:update-settings', function (ev, updated, changedKey) {
@@ -141,5 +133,21 @@ function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
       event.sender.send('app:item', info, rowId, pocketLabel)
       return cb()
     }
+  })
+}
+
+function openConfig () {
+  // prevent multiple config windows from opening
+  if (configWindow) return configWindow.focus()
+
+  configWindow = new BrowserWindow({
+    height: 800,
+    width: 1000,
+    title: 'WMS Labeling - Config'
+  })
+
+  configWindow.loadUrl('file://' + __dirname + '/app/config.html')
+  configWindow.on('close', function () {
+    configWindow = null
   })
 }

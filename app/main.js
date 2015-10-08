@@ -43,13 +43,17 @@ ipc.on('app:item-error', function (err, rowId) {
 
 // update settings when changed in config
 ipc.on('config:update-settings', function (updated) {
-  console.log('main got `config:update-settings`')
   settings = updated
+})
+
+// we need to use the main window as a relay for the menu
+// to trigger the `window:open-config` message
+ipc.on('menu:open-config', function () {
+  ipc.send('window:open-config')
 })
 
 function init () {
   setUpTable()
-  ipc.send('window:open-config')
 }
 
 function toggleInputBody (ev) {
