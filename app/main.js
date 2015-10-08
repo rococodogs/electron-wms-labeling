@@ -29,7 +29,7 @@ els.input.addRow.addEventListener('click', addRowToTable)
 
 // handle an item being returned from the main process
 ipc.on('app:item', function (info, rowId, includePocket) {
-  var label = generateLabel(info, includePocket)
+  let label = generateLabel(info, includePocket)
   els.label.container.appendChild(label)
 
   insertOk(rowId)
@@ -95,9 +95,9 @@ function setUpTable () {
 // adds a span::before pseudo-element before the first element
 // of a row. currently only uses 'ok' and 'not-ok'
 function insertBarcodeSprite (which, rowId) {
-  var tr = document.getElementById(rowId)
-  var td = tr.firstElementChild
-  var sprite = document.createElement('span')
+  let tr = document.getElementById(rowId)
+  let td = tr.firstElementChild
+  let sprite = document.createElement('span')
   sprite.className = 'barcode-' + which
 
   td.insertBefore(sprite, td.firstElementChild)
@@ -131,7 +131,7 @@ function handleBarcodeKeydown (ev) {
     if (id === lastRowCount()) {
       addRowToTable(handleBarcodeKeydown)
     } else {
-      var nextEl = ev.target            //     <input>
+      let nextEl = ev.target            //     <input>
                    .parentElement      //    </td>
                    .parentElement      //   </tr>
                    .nextElementSibling //   <tr>
