@@ -8,6 +8,7 @@
   "user.principalIDNS": "",
 
   "default_number_of_inputs": 10,
+  "default_select_all": false,
 
   "dimension_unit": "in",
 
@@ -23,5 +24,4 @@
   "template.spine": "{{# prefix}}{{ prefix}}<br>{{/ prefix}}\n{{ callNumber }}<br>\n{{ cutter }}<br>\n{{# description }}{{ description }} {{/ description }}\n{{# enumeration }}{{ enumeration }}{{/ enumeration }}",
   
   "template.pocket": "{{ prefix }} {{ callNumber }} {{ cutter }}\n{{# description }}{{ description }}{{/ description }} \n{{# enumeration }}{{ enumeration }}{{/ enumeration }}<br>\n{{ title }} / {{ author }}"
-
 }

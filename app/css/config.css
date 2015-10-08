@@ -1,5 +1,8 @@
 .menu-items {
+  border-right: 1px solid #c3c3c3;
   float: left;
+  height: 100%;
+  position: fixed;
   width: 30%;
 }
 
@@ -12,6 +15,8 @@
 .tab {
   background-color: #e5e5e5;
   border: 1px solid #c3c3c3;
+  border-top-color: transparent;
+  border-right-color: transparent;
   position: relative;
 }
 
@@ -54,7 +59,12 @@ textarea {
 }
 
 label {
+  cursor: pointer;
   display: block;
+}
+
+.label-group {
+  margin: 10px auto;
 }
 
 .input-group {
