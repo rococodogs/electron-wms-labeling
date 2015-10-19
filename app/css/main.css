@@ -2,15 +2,35 @@
   box-sizing: border-box;
 }
 
-body { 
+html { height: 100% }
+
+body {
   font-family: 'Arial', sans-serif;
   font-size: 14px;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 
 button, input[type="checkbox"] {
   cursor: pointer;
+}
+
+.input-container, .label-container {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.input-container {
+  background-color: #e5e5e5;
+  min-height: 100%;
+  padding-bottom: 20em;
+  width: 40%;
+}
+
+.label-container {
+  float: right;
+  width: 59%;
 }
 
 .input-container--header {
@@ -24,14 +44,8 @@ button, input[type="checkbox"] {
 }
 
 .input-container--body {
-  background-color: #e5e5e5;
   padding-bottom: 20px;
   padding-top: 20px;
-  transition: height 250ms;
-}
-
-.input-container--body.closed {
-  display: none;
 }
 
 .input-table {
@@ -67,7 +81,7 @@ button, input[type="checkbox"] {
 
 .barcode-ok::before,
 .barcode-not-ok::before {
-  left: 1em;
+  left: -1em;
   position: absolute;
   top: .35em;
 }

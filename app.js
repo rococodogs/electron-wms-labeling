@@ -57,7 +57,7 @@ app.on('ready', function () {
   Menu.setApplicationMenu(mainMenu)
 
   let windowOpts = {
-    width: 600,
+    width: 1000,
     height: 1000,
     title: 'WMS Labeling'
   }

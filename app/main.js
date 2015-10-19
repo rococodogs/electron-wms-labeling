@@ -18,9 +18,6 @@ let settings = ipc.sendSync('get-settings-sync')
 // set-up (preload the table)
 document.addEventListener('DOMContentLoaded', init)
 
-// header collapse/expand (currently just hiding the body)
-els.input.header.addEventListener('click', toggleInputBody)
-
 // select all toggle button
 els.input.selectAll.addEventListener('change', toggleSelectAll)
 
@@ -52,19 +49,16 @@ ipc.on('menu:open-config', function () {
   ipc.send('window:open-config')
 })
 
+//
+// handlers
+//
+
 function init () {
   setUpTable()
   if (settings.default_select_all === true) {
     els.input.selectAll.checked = true
     toggleSelectAll()
   }
-}
-
-function toggleInputBody (ev) {
-  let list = els.input.body.classList
-  let action = list.contains('closed') ? 'remove' : 'add'
-
-  list[action]('closed')
 }
 
 function toggleSelectAll () {
