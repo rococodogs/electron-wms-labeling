@@ -54,10 +54,18 @@ module.exports = function generateLabels (info, includePocket) {
 }
 
 function generateCloseButton () {
-  var btn = document.createElement('button')
+  let btn = document.createElement('button')
   btn.className = 'close-btn'
   btn.onclick = function () {
     this.parentElement.parentElement.removeChild(this.parentElement)
+
+    if (this.parentElement.dataset.rowId !== void 0) {
+      let rowId = this.parentElement.dataset.rowId
+      let input = document.querySelector(`tr#${rowId} input[type="text"]`)
+      let sprite = document.querySelector(`tr#${rowId} td > span`)
+      input.value = ''
+      sprite.parentElement.removeChild(sprite)
+    }
   }
   btn.innerText = 'x'
   btn.title = 'Remove label'
