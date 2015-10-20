@@ -4,6 +4,10 @@
 const ipc = require('ipc')
 const join = require('path').join
 
+// since we want debug to appear in our app's main window, we need to
+// use the 'remote' module to call it
+const debug = require('remote').require('debug')('labeling:window')
+
 // lib functions
 const addRowToTable = require(join(__dirname, 'lib', 'add-row-to-table'))
 const lastRowCount = addRowToTable.getLastRowCount
@@ -35,6 +39,7 @@ ipc.on('app:item', function (info, rowId, includePocket) {
 
 // if an error's returned, we'll need to handle that
 ipc.on('app:item-error', function (message, rowId) {
+  debug(`received error from app: ${message}]`)
   insertNotOkSprite(rowId, message)
 })
 
@@ -87,6 +92,7 @@ function setUpTable () {
 }
 
 function updateStatusSprite (status, rowId, title) {
+  debug(`adding ${status} sprite @ ${rowId}`)
   let el = document.querySelector(`#${rowId} .barcode-status`)
   el.className = `barcode-status ${status}`.trim()
   if (title) el.title = title

@@ -6,6 +6,7 @@ const BrowserWindow = require('browser-window')
 const ipc = require('ipc')
 const join = require('path').join
 const fs = require('fs')
+const debug = require('debug')('labeling:app')
 
 const Menu = require('menu')
 const template = require(__dirname + '/menu-template')
@@ -29,9 +30,8 @@ let configWindow
 
 // try loading settings from the app/local/settings.json file,
 // + if it doesn't exist, copy the default settings
-try {
-  settings = require(appJoin('local', 'settings.json'))
-} catch (e) {
+try { settings = require(appJoin('local', 'settings.json')) } 
+catch (e) {
   settings = require(cwdJoin('settings.default.json'))
   saveSettings()
 }
@@ -98,7 +98,7 @@ function handleAddBarcodeRequest (ev, bc, pl, id) {
     })
   }
 
-  var job = function (next) {
+  let job = function (next) {
     return processBarcodeRequest(ev, bc, pl, id, next)
   }
 
@@ -106,12 +106,17 @@ function handleAddBarcodeRequest (ev, bc, pl, id) {
   if (!queue.running) queue.start()
 }
 
-function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
+function processBarcodeRequest (event, barcode, pocketLabel, rowId, next) {
+  debug(`processing barcode: \`${barcode}\` from rowId \`${rowId}\``)
   return client.barcode(barcode, function (err, res) {
-    if (err) return event.sender.send('app:item-error', err, rowId)
+    if (err) {
+      debug(`received error from OCLC: ${err.message}`)
+      event.sender.send('app:item-error', err.message, rowId)
+      return next()
 
-    // takes in the results object from OCLC + extracts
-    // the pieces we need
+    }
+
+    // takes in the results object from OCLC + extracts the pieces we need
     let info = processCopyResource(barcode, res)
 
     // if the pocketLabel param is true, then we'll need to make
@@ -126,12 +131,12 @@ function processBarcodeRequest (event, barcode, pocketLabel, rowId, cb) {
         // call of `processBarcodeRequest` so that potentially async
         // requests are placed in their corresponding places
         event.sender.send('app:item', info, rowId, pocketLabel)
-        return cb()
+        return next()
       })
     } else {
       // otherwise send the pre-pocketlabel info back
       event.sender.send('app:item', info, rowId, pocketLabel)
-      return cb()
+      return next()
     }
   })
 }
