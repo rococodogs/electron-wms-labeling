@@ -13,6 +13,10 @@ module.exports = function addRowToTable (keydownCallback) {
   let td1 = document.createElement('td')
   let barcode = document.createElement('input')
 
+  let status = document.createElement('span')
+  status.className = 'barcode-status'
+  td1.appendChild(status)
+
   let td2 = document.createElement('td')
   let pocketLabel = document.createElement('input')
 

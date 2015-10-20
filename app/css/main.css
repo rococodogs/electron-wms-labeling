@@ -79,21 +79,39 @@ button, input[type="checkbox"] {
   border: 1px solid #c3c3c3;
 }
 
-.barcode-ok::before,
-.barcode-not-ok::before {
+.barcode-status {
+  display: inline-block;
+}
+
+.barcode-status::before {
   left: -1em;
   position: absolute;
   top: .35em;
 }
 
-.barcode-ok::before {
+.barcode-status.ok::before {
   color: #00cc00;
   content: '\2713';
 }
 
-.barcode-not-ok::before {
+.barcode-status.not-ok::before {
   color: #cc0000;
   content: '\2717';
+}
+
+.barcode-status.loading::before {
+  content: '\263C';
+  animation: rotation 250ms infinite;
+}
+
+@keyframes rotation {
+  0%   { transform: rotate(0deg)   }
+  12%  { transform: rotate(45deg)  }
+  25%  { transform: rotate(90deg)  }
+  50%  { transform: rotate(180deg) }
+  62%  { transform: rotate(225deg) }
+  75%  { transform: rotate(270deg) }
+  100% { transform: rotate(360deg) }
 }
 
 /*

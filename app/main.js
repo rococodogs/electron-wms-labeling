@@ -27,15 +27,15 @@ els.input.addRow.addEventListener('click', addRowToTable)
 // handle an item being returned from the main process
 ipc.on('app:item', function (info, rowId, includePocket) {
   let label = generateLabel(info, includePocket)
+  label.dataset.rowId = rowId
   els.label.container.appendChild(label)
 
-  insertOk(rowId)
+  insertOkSprite(rowId)
 })
 
 // if an error's returned, we'll need to handle that
-ipc.on('app:item-error', function (err, rowId) {
-  if (err) return // TODO: alert the err
-  insertNotOk(rowId)
+ipc.on('app:item-error', function (message, rowId) {
+  insertNotOkSprite(rowId, message)
 })
 
 // update settings when changed in config
@@ -86,25 +86,27 @@ function setUpTable () {
        .focus()
 }
 
-// adds a span::before pseudo-element before the first element
-// of a row. currently only uses 'ok' and 'not-ok'
-function insertBarcodeSprite (which, rowId) {
-  let tr = document.getElementById(rowId)
-  let td = tr.firstElementChild
-  let sprite = document.createElement('span')
-  sprite.className = 'barcode-' + which
-
-  td.insertBefore(sprite, td.firstElementChild)
+function updateStatusSprite (status, rowId, title) {
+  let el = document.querySelector(`#${rowId} .barcode-status`)
+  el.className = `barcode-status ${status}`.trim()
+  if (title) el.title = title
+  return el
 }
 
-// add a checkmark to a row
-function insertOk (rowId) {
-  return insertBarcodeSprite('ok', rowId)
+function clearStatusSprite (rowId) {
+  return updateStatusSprite('', rowId)
 }
 
-// add an X to a row
-function insertNotOk (rowId) {
-  return insertBarcodeSprite('not-ok', rowId)
+function insertOkSprite (rowId) {
+  return updateStatusSprite('ok', rowId)
+}
+
+function insertNotOkSprite (rowId, message) {
+  return updateStatusSprite('not-ok', rowId, message)
+}
+
+function insertLoadingSprite (rowId) {
+  return updateStatusSprite('loading', rowId)
 }
 
 // currently only handling an `Enter` keystroke (either by the user
@@ -119,6 +121,7 @@ function handleBarcodeKeydown (ev) {
     let pocketLabel = document.getElementById(`${rowId}-pocket-label`)
 
     if (ev.target.value !== '') {
+      insertLoadingSprite(rowId)
       ipc.send('window:add-barcode', barcode, !!pocketLabel.checked, rowId)
     }
 
